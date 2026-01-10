@@ -1,16 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { ProductProvider } from './modules/Products/index.tsx'
-import { MantineProvider } from '@mantine/core'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.tsx";
+import { MantineProvider } from "@mantine/core";
+import { ProductsModule } from "./modules/Products/index.tsx";
 
-createRoot(document.getElementById('root')!).render(
+const { Provider: ProductsProvider } = ProductsModule();
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MantineProvider>
-      <ProductProvider value={"this app"}>
+      <ProductsProvider>
         <App />
-      </ProductProvider>
+      </ProductsProvider>
     </MantineProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
