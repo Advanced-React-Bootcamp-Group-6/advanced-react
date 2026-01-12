@@ -9,6 +9,7 @@ export const toProduct = (products: ProductDto[]): Product[] => {
         price: dto.price,
         category: dto.category,
         discountPercentage: dto.discountPercentage,
+        hasDiscounts: dto.discountPercentage > 0,
         rating: dto.rating,
         isAvailable: dto.stock > 0,
         imageUrl: dto.thumbnail,
