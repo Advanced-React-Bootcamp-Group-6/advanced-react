@@ -39,6 +39,7 @@ export const useGetAllProducts = () => {
   });
 
   return {
+    allProducts: data.all,
     productsWithDiscountHigherThan10: data.productsWithDiscountHigherThan10,
     productsWithDiscountLowerThan10: data.productsWithDiscountLowerThan10,
     isEmpty: error,
