@@ -1,18 +1,23 @@
 import { useState } from "react";
-import {  Group,Grid, Title, Container, Loader } from "@mantine/core";
+import { Group, Grid, Title, Container, Loader, AppShell } from "@mantine/core";
 import { useGetAllProducts } from "../hooks/useGetAllProducts";
 import { Pagination } from "@mantine/core";
 import type { Product } from "../entities/Product";
 import ProductItem from "./ProductItem";
 import type { CategoryDto } from "../dto/Category";
 import ProductLayout from "./ProductLayout";
-import ProductCategoryFilter from "./ProductCategoryFilter";
+import ProductCategoryFilter from "./ProductFilter";
 
 export const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryDto>({ name: "All", slug: undefined });
-  const { allProducts, isEmpty, isLoading } =useGetAllProducts(selectedCategory.slug === undefined ? undefined : selectedCategory);
-  const POSTS_PER_PAGE = 9;
+  const [selectedCategory, setSelectedCategory] = useState<CategoryDto>({
+    name: "All",
+    slug: undefined,
+  });
+  const { allProducts, isEmpty, isLoading } = useGetAllProducts(
+    selectedCategory.slug === undefined ? undefined : selectedCategory
+  );
+  const POSTS_PER_PAGE = 8;
   console.log("Selected Category:", selectedCategory);
   console.log("All Products:", allProducts);
 
@@ -23,36 +28,29 @@ export const Products = () => {
 
   if (isLoading) return <Loader />;
   return (
-    <>
-    <ProductLayout />
-    <Container fluid>
-      {/* <Grid.Col span={3}>
-        <CategoriesSidebar
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
-        />
-      </Grid.Col> */}
+    <AppShell header={{ height: 75 }} padding={0}>
+      <ProductLayout />
+      <AppShell.Main pt={"xl"}>
+        <Container  size={"xl"}>
+          <ProductCategoryFilter
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
+          />
+          <Grid gutter="lg">
+            {currentProducts.map((product: Product) => (
+              <ProductItem product={product} />
+            ))}
+          </Grid>
 
-            {/* <Title order={3} algin="left">All Products</Title> */}
-            <ProductCategoryFilter
-              selectedCategory={selectedCategory}
-              onSelectCategory={setSelectedCategory}
+          <Group justify="center" mt="md">
+            <Pagination
+              total={Math.ceil(allProducts.length / 8)}
+              value={currentPage}
+              onChange={setCurrentPage}
             />
-            <Grid gutter="lg">
-              {currentProducts.map((product: Product) => (
-                <ProductItem product={product} />
-              ))}
-            </Grid>
-          
-
-            <Group justify="center" mt="md">
-              <Pagination
-                total={Math.ceil(allProducts.length / 8)}
-                value={currentPage}
-                onChange={setCurrentPage}
-              />
-            </Group>
+          </Group>
         </Container>
-    </>
+      </AppShell.Main >
+    </AppShell>
   );
 };

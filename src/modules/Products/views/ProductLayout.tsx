@@ -3,27 +3,43 @@ import {
   Text,
   Group,
   Button,
+  AppShell,
   Stack,
+  Title,
+  Box,
 } from "@mantine/core";
 
 export default function ProductLayout() {
   return (
-      <Container fluid h={50} mb={"xl"} style={{ shadow: "md" }}>
-        <Group mb="md" justify="space-between" align="center">
-          <Stack gap={4} align="flex-start">
-            <Text fz="h1" fw={500} gradient={{ from: "indigo", to: "cyan" }} variant="gradient">
-              Product Dashboard
-            </Text>
-            <Text fz="sm" c="dimmed">
-              Manage your products efficiently
-            </Text>
-          </Stack>
+    <AppShell.Header>
+      <Box
+        h="100%"
+        style={{
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.08)",
+          backgroundColor: "transparent",
+          zIndex: 100,
+        }}
+      >
+        <Container fluid h="100%">
+          <Group h="100%" justify="space-between" align="center">
+            <Stack gap={0} align="flex-start" pr={"md"} pl={"md"}>
+              <Title order={2} c="blue">
+                Product Dashboard
+              </Title>
 
-          <Button variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
-            + Add Product
-          </Button>
-        </Group>
-      </Container>
-      
+              <Text fz="sm" c="dimmed">
+                Manage your products efficiently
+              </Text>
+            </Stack>
+            <Button
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan" }}
+            >
+              + Add Product
+            </Button>
+          </Group>
+        </Container>
+      </Box>
+    </AppShell.Header>
   );
 }
