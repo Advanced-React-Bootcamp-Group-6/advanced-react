@@ -1,5 +1,7 @@
+import type { CategoryDto } from "../dto/Category";
 import type { Product } from "../entities/Product";
 
 export interface ProductsApi {
-  getAll: () => Promise<Product[]>;
+  getAll: (category?:CategoryDto) => Promise<Product[]>;
+  getCategories: () => Promise<CategoryDto[]>;
 }
