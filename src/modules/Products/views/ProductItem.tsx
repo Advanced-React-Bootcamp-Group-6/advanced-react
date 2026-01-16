@@ -12,12 +12,19 @@ import {
 } from "@mantine/core";
 import type { Product } from "../entities/Product";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { useDeleteProduct } from "../hooks/useDeleteProduct";
 
 type ProductItemProps = {
   product: Product;
 };
 
 export default function ProductItem({ product }: ProductItemProps) {
+  const {deleteProduct, isSuccess} = useDeleteProduct({
+    onSuccess:()=>{}
+  })
+  if(isSuccess){
+    return null
+  }
   return (
     <Grid.Col key={product.id} span={{ base: 12, md: 6, lg: 3 }} mt={"md"}>
       <Card
@@ -40,7 +47,7 @@ export default function ProductItem({ product }: ProductItemProps) {
           <ActionIcon size="sm" variant="light" color="blue">
             <IconEdit size={16} />
           </ActionIcon>
-          <ActionIcon size="sm" variant="light" color="red">
+          <ActionIcon onClick={()=> deleteProduct(product.id)} size="sm" variant="light" color="red">
             <IconTrash size={16} />
           </ActionIcon>
         </Group>
