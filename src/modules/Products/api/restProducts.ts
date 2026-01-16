@@ -20,6 +20,15 @@ export const restProducts = (): ProductsApi => {
       if (!response.ok) throw new Error("failed to fetch categories!");
       const data = await response.json();
       return data as CategoryDto[]
-    }
+    },
+    delete: async (id: string): Promise<void> => {
+      const response = await fetch(`${Base_URL}/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
+      return;
+    },
   };
 };
