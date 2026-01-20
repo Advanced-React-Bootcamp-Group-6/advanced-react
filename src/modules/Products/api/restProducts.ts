@@ -6,7 +6,7 @@ const Base_URL = "https://dummyjson.com/products";
 
 export const restProducts = (): ProductsApi => {
   return {
-    getPaginated: async ({
+    getAll: async ({
       categorySlug,
       limit,
       skip,
