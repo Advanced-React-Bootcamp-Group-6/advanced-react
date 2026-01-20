@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useProducts } from "..";
+import { PRODUCTS_QUERY_KEY } from "../queryKeys";
 
 export const useGetProducts = ({
   categorySlug,
@@ -10,15 +11,15 @@ export const useGetProducts = ({
   page: number;
   limit: number;
 }) => {
-  const { getPaginated } = useProducts();
+  const { getAll } = useProducts();
 
   const safePage = Math.max(1, page);
   const skip = (safePage - 1) * limit;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["products", categorySlug, safePage, limit],
+    queryKey: [...PRODUCTS_QUERY_KEY, categorySlug, safePage, limit],
     queryFn: () =>
-      getPaginated({
+      getAll({
         categorySlug,
         limit,
         skip,
