@@ -10,6 +10,7 @@ export const toProduct = (products: ProductDto[]): Product[] => {
         category: dto.category,
         discountPercentage: dto.discountPercentage,
         hasDiscounts: dto.discountPercentage > 0,
+        discountedPrice: dto.discountPercentage > 0 ? parseFloat((dto.price * (1 - dto.discountPercentage / 100)).toFixed(2)) : undefined,
         rating: dto.rating,
         isAvailable: dto.stock > 0,
         imageUrl: dto.thumbnail,

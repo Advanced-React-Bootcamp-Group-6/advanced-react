@@ -9,6 +9,7 @@ export type Product = {
   isAvailable: boolean;
   imageUrl: string;
   hasDiscounts: boolean;
+  discountedPrice ?: number;
   tags: string[];
   reviews: Review[];
 };

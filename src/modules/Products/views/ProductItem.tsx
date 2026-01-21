@@ -11,23 +11,32 @@ import {
   Text,
 } from "@mantine/core";
 import type { Product } from "../entities/Product";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconEdit, IconShoppingCart, IconTrash } from "@tabler/icons-react";
 import { useDeleteProduct } from "../hooks/useDeleteProduct";
+import { Link } from "@tanstack/react-router";
+import { useHover } from "@mantine/hooks";
 
 type ProductItemProps = {
   product: Product;
 };
 
 export default function ProductItem({ product }: ProductItemProps) {
-  const {deleteProduct, isSuccess} = useDeleteProduct({
-    onSuccess:()=>{}
-  })
-  if(isSuccess){
-    return null
+  const { ref, hovered } = useHover();
+
+  const { deleteProduct, isSuccess } = useDeleteProduct({
+    onSuccess: () => {
+    },
+  });
+  if (isSuccess) {
+    return null;
   }
   return (
     <Grid.Col key={product.id} span={{ base: 12, md: 6, lg: 3 }} mt={"md"}>
       <Card
+        ref={ref}
+        component={Link}
+        to="/product/$productId"
+        params={{ productId: product.id }}
         ta="left"
         withBorder
         radius="md"
@@ -35,7 +44,14 @@ export default function ProductItem({ product }: ProductItemProps) {
         padding="md"
         h={400}
         display="flex"
-        style={{ flexDirection: "column" }}
+        style={{
+          flexDirection: "column",
+          cursor: "pointer",
+          transform: hovered ? "translateY(-4px)" : "translateY(0)",
+          boxShadow: hovered
+            ? "0 10px 25px rgba(0,0,0,0.12)"
+            : "0 2px 8px rgba(0,0,0,0.08)",
+        }}
       >
         <Group
           pos="absolute"
@@ -47,7 +63,16 @@ export default function ProductItem({ product }: ProductItemProps) {
           <ActionIcon size="sm" variant="light" color="blue">
             <IconEdit size={16} />
           </ActionIcon>
-          <ActionIcon onClick={()=> deleteProduct(product.id)} size="sm" variant="light" color="red">
+          <ActionIcon
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              deleteProduct(product.id);
+            }}
+            size="sm"
+            variant="light"
+            color="red"
+          >
             <IconTrash size={16} />
           </ActionIcon>
         </Group>
@@ -97,6 +122,7 @@ export default function ProductItem({ product }: ProductItemProps) {
             radius="md"
             variant="gradient"
             gradient={{ from: "indigo", to: "cyan" }}
+            leftSection={<IconShoppingCart size={18} />}
           >
             Add to Cart
           </Button>
