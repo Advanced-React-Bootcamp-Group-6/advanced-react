@@ -23,7 +23,7 @@ export const restProducts = (): ProductsApi => {
       const url = `${base}?limit=${limit}&skip=${skip}`;
 
       const response = await fetch(url);
-      if (!response.ok) throw new Error("failed to fetch");
+      if (!response.ok) throw new Error("failed to fetch Products!");
 
       const data = await response.json();
 

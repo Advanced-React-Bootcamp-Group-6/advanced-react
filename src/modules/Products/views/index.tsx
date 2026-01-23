@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Group, Grid, Title, Container, Loader } from "@mantine/core";
+import { Group, Grid, Container, Loader, Text, Button } from "@mantine/core";
 import { Pagination } from "@mantine/core";
 import type { Product } from "../entities/Product";
 import ProductItem from "./ProductItem";
 import type { CategoryDto } from "../dto/Category";
 import ProductCategoryFilter from "./ProductFilter";
 import { useGetProducts } from "../hooks/useGetProducts";
+import { Link } from "@tanstack/react-router";
 
 export const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState<CategoryDto>({
@@ -23,9 +24,24 @@ export const Products = () => {
 
   const totalPages = Math.ceil(total / POSTS_PER_PAGE);
 
-  if (isError) return <Title> No products available </Title>;
+  if (isLoading)
+    return (
+      <Container ta="center" mt="xl">
+        <Loader size="lg" />
+      </Container>
+    );
 
-  if (isLoading) return <Loader />;
+  if (isError)
+    return (
+      <Container ta="center" mt="xl">
+        <Text c="red" fw={600}>
+          Product not found
+        </Text>
+        <Button mt="md" component={Link} to="/">
+          Back to products
+        </Button>
+      </Container>
+    );
   return (
     <Container size={"xl"}>
       <ProductCategoryFilter

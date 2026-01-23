@@ -18,12 +18,31 @@ import {
 import { IconArrowLeft, IconShoppingCart } from "@tabler/icons-react";
 
 export const ProductDetail = () => {
-  const { productId } = useParams({ strict: false });
-  const { product, isLoading, isError } = useGetProductById(productId!);
+  const { productId } = useParams({ from: "/product/$productId" });
+  const { product, isLoading, isError } = useGetProductById(productId);
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <Container ta="center" mt="xl">
+        <Loader size="lg" />
+        <Text mt="md" c="dimmed">
+          Loading product...
+        </Text>
+      </Container>
+    );
 
-  if (isError || !product) return <Title>Product not found</Title>;
+  if (isError || !product)
+    return (
+      <Container ta="center" mt="xl">
+        <Text c="red" fw={600}>
+          Product not found
+        </Text>
+        <Button mt="md" component={Link} to="/">
+          Back to products
+        </Button>
+      </Container>
+    );
+
   return (
     <Container size="xl" py="xl">
       <Paper radius="lg" p="xl" withBorder>
@@ -33,8 +52,8 @@ export const ProductDetail = () => {
               src={product.imageUrl}
               radius="md"
               alt={product.name}
-              height={300}
-              width="100%"
+              width={"100%"}
+              h={320}
               fit="contain"
             />
           </Grid.Col>
@@ -42,7 +61,7 @@ export const ProductDetail = () => {
           <Grid.Col span={{ base: 12, md: 7 }}>
             <Stack gap="sm">
               <Button
-                w={"180"}
+                w={180}
                 variant="light"
                 leftSection={<IconArrowLeft size={16} />}
                 component={Link}
@@ -61,10 +80,10 @@ export const ProductDetail = () => {
                 {product.description}
               </Text>
 
-              <Rating value={product.rating} readOnly />
+              <Rating value={Math.round(product.rating ?? 0)} readOnly />
 
               <Group mt="xs" wrap="wrap">
-                {product.tags.map((tag) => (
+                {product.tags?.map((tag) => (
                   <Badge key={tag} color="gray" variant="outline">
                     {tag}
                   </Badge>
@@ -84,7 +103,7 @@ export const ProductDetail = () => {
                 >
                   ${product.price.toFixed(2)}
                 </Text>
-                <Badge color="red"  >{product.discountPercentage}% OFF</Badge>
+                <Badge color="red">{product.discountPercentage}% OFF</Badge>
               </Group>
 
               <Group mt="md">
