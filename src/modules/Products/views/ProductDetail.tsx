@@ -25,9 +25,6 @@ export const ProductDetail = () => {
     return (
       <Container ta="center" mt="xl">
         <Loader size="lg" />
-        <Text mt="md" c="dimmed">
-          Loading product...
-        </Text>
       </Container>
     );
 
