@@ -1,20 +1,20 @@
-import { useState } from "react";
 import { Group, Grid, Container, Loader, Text, Button } from "@mantine/core";
 import { Pagination } from "@mantine/core";
 import type { Product } from "../entities/Product";
 import ProductItem from "./ProductItem";
-import type { CategoryDto } from "../dto/Category";
 import ProductCategoryFilter from "./ProductFilter";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { Link } from "@tanstack/react-router";
+import { useProductsFilters } from "../hooks/useProductsFilters";
 
 export const Products = () => {
-  const [selectedCategory, setSelectedCategory] = useState<CategoryDto>({
-    name: "All",
-    slug: undefined,
-  });
-  const [currentPage, setCurrentPage] = useState(1);
-  const POSTS_PER_PAGE = 8;
+  const {
+    selectedCategory,
+    currentPage,
+    POSTS_PER_PAGE,
+    setCurrentPage,
+    handleCategoryChange,
+  } = useProductsFilters();
 
   const { products, total, isLoading, isError } = useGetProducts({
     categorySlug: selectedCategory.slug,
@@ -46,7 +46,7 @@ export const Products = () => {
     <Container size={"xl"}>
       <ProductCategoryFilter
         selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
+        onSelectCategory={handleCategoryChange}
       />
       <Grid gutter="md">
         {products.map((product: Product) => (
