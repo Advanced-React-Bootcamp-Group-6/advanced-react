@@ -52,7 +52,7 @@ export const ProductDetail = () => {
               src={product.imageUrl}
               radius="md"
               alt={product.name}
-              width={"100%"}
+              width="100%"
               h={320}
               fit="contain"
             />
