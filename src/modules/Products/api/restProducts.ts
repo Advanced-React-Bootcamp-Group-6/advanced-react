@@ -1,5 +1,6 @@
-import { toProduct } from "../adapters/toProduct";
+import { toProduct, toProducts } from "../adapters/toProduct";
 import type { CategoryDto } from "../dto/Category";
+import type { Product } from "../entities/Product";
 import type { ProductsApi } from "./ProdcutsApi";
 
 const Base_URL = "https://dummyjson.com/products";
@@ -22,17 +23,24 @@ export const restProducts = (): ProductsApi => {
       const url = `${base}?limit=${limit}&skip=${skip}`;
 
       const response = await fetch(url);
-      if (!response.ok) throw new Error("failed to fetch");
+      if (!response.ok) throw new Error("failed to fetch Products!");
 
       const data = await response.json();
+      
 
       return {
-        products: toProduct(data.products),
+        products: toProducts(data.products),
         total: data.total,
       };
     },
 
-    // /////////////////
+    getById: async (id: string): Promise<Product> => {
+      const response = await fetch(`${Base_URL}/${id}`);
+      if (!response.ok) throw new Error("failed to fetch product!");
+      const data = await response.json();
+      return toProduct(data);
+    },
+
     getCategories: async (): Promise<CategoryDto[]> => {
       const response = await fetch(`${Base_URL}/categories`);
       if (!response.ok) throw new Error("failed to fetch categories!");

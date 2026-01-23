@@ -1,6 +1,6 @@
 import { createContext, useContext, type PropsWithChildren } from "react";
 import { restProducts } from "./api/restProducts";
-import type { ProductsApi } from "./api/prodcutsApi";
+import type { ProductsApi } from "./api/ProdcutsApi";
 
 const ProductsContext = createContext<ProductsApi | null>(null);
 type ProductsProviderProps = PropsWithChildren<{

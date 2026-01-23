@@ -11,6 +11,8 @@ export interface ProductsApi {
     total: number;
   }>;
 
+  getById: (id: string) => Promise<Product>;
+  
   getCategories: () => Promise<CategoryDto[]>;
 
   delete: (id: string) => Promise<void>;
