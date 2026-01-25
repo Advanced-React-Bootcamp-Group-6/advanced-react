@@ -7,20 +7,25 @@ export const useProductsFilters = () => {
     slug: undefined,
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [priceSort, setPriceSort] = useState<
+    "price-asc" | "price-desc" | undefined
+  >();
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const POSTS_PER_PAGE = 8;
 
-  const handleCategoryChange = (category: CategoryDto) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
-
   return {
     selectedCategory,
+    searchQuery,
+    priceSort,
     currentPage,
     POSTS_PER_PAGE,
+
+    setSelectedCategory,
+    setSearchQuery,
+    setPriceSort,
     setCurrentPage,
-    handleCategoryChange,
   };
 };
