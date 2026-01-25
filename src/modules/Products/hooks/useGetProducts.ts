@@ -1,36 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
+import type { Product } from "../entities/Product";
 import { useProducts } from "..";
-import { PRODUCTS_QUERY_KEY } from "../queryKeys";
 
-export const useGetProducts = ({
-  categorySlug,
-  page,
-  limit,
-}: {
-  categorySlug?: string;
-  page: number;
-  limit: number;
-}) => {
+const PRODUCTS_QUERY_KEY = ["products"];
+
+export const useGetProducts = ({ categorySlug }: { categorySlug?: string }) => {
   const { getAll } = useProducts();
 
-  const safePage = Math.max(1, page);
-  const skip = (safePage - 1) * limit;
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: [...PRODUCTS_QUERY_KEY, categorySlug, safePage, limit],
-    queryFn: () =>
-      getAll({
-        categorySlug,
-        limit,
-        skip,
-      }),
-    placeholderData: (previousData) => previousData,
+  const {
+    data = [],
+    isLoading,
+    error,
+  } = useQuery<Product[]>({
+    queryKey: [...PRODUCTS_QUERY_KEY, categorySlug],
+    queryFn: () => getAll({ categorySlug }),
     staleTime: 1000 * 60,
   });
 
   return {
-    products: data?.products ?? [],
-    total: data?.total ?? 0,
+    products: data,
     isLoading,
     isError: !!error,
   };
