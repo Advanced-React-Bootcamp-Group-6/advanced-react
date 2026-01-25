@@ -12,22 +12,35 @@ import { useCategories } from "../hooks/useCategories";
 import type { CategoryDto } from "../dto/Category";
 import { IconAdjustments } from "@tabler/icons-react";
 
-type CategoriesSidebarProps = {
+type ProductsFiltersProps = {
   selectedCategory: CategoryDto;
   onSelectCategory: (category: CategoryDto) => void;
+
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
+
+  priceSort?: "price-asc" | "price-desc";
+  onPriceSortChange: (value: "price-asc" | "price-desc" | undefined) => void;
 };
 
-export default function CategoriesSidebar({
+export default function ProductsFilters({
   selectedCategory,
   onSelectCategory,
-}: CategoriesSidebarProps) {
+  searchQuery,
+  onSearchChange,
+  priceSort,
+  onPriceSortChange,
+}: ProductsFiltersProps) {
   const { categories, isLoading } = useCategories();
+
   const ALL_CATEGORY: CategoryDto = {
     name: "all",
+    slug: undefined,
   };
+
   const handleCategoryChange = (
     _value: string | null,
-    option: ComboboxItem | null
+    option: ComboboxItem | null,
   ) => {
     if (!option) return;
 
@@ -35,30 +48,47 @@ export default function CategoriesSidebar({
       onSelectCategory(ALL_CATEGORY);
       return;
     }
-    const selectedCategory = categories.find(
-      (cat) => cat.name.toString() === option.value
+
+    const found = categories.find(
+      (cat) => cat.name.toString() === option.value,
     );
 
-    if (selectedCategory) {
-      onSelectCategory(selectedCategory);
+    if (found) {
+      onSelectCategory(found);
     }
   };
 
   if (isLoading) return <Loader />;
+
   return (
-    <Paper withBorder radius="md" p="md" mt="lg">
+    <Paper
+      withBorder
+      radius="md"
+      mt="lg"
+      p="md"
+      w="100%"
+      maw={1200}
+      miw={{ base: "100%", lg: 1200 }}
+    >
       <Stack>
-        <Group align="center" >
-          <IconAdjustments  size={20} style={{ transform: "rotate(90deg)" }} />
+        <Group align="center">
+          <IconAdjustments size={20} style={{ transform: "rotate(90deg)" }} />
           <Text fw={500}>Search & Filters</Text>
         </Group>
 
         <Group grow>
-          <TextInput placeholder="Search products..." />
+          <TextInput
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.currentTarget.value)}
+          />
           <Select
             data={[
               { value: "all", label: "All Categories" },
-              ...categories.map((c) => ({ value: c.name, label: c.name })),
+              ...categories.map((c) => ({
+                value: c.name,
+                label: c.name,
+              })),
             ]}
             placeholder="All Categories"
             value={selectedCategory.name}
@@ -71,6 +101,14 @@ export default function CategoriesSidebar({
               { value: "price-desc", label: "Price: High to Low" },
             ]}
             placeholder="Sort by"
+            value={priceSort ?? "default"}
+            onChange={(value) => {
+              if (value === "price-asc" || value === "price-desc") {
+                onPriceSortChange(value);
+              } else {
+                onPriceSortChange(undefined);
+              }
+            }}
           />
         </Group>
       </Stack>

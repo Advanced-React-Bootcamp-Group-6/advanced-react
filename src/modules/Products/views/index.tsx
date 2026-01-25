@@ -1,68 +1,82 @@
-import { Group, Grid, Container, Loader, Text, Button } from "@mantine/core";
+import { Container, Grid, Group, Loader, Text } from "@mantine/core";
 import { Pagination } from "@mantine/core";
-import type { Product } from "../entities/Product";
 import ProductItem from "./ProductItem";
-import ProductCategoryFilter from "./ProductFilter";
-import { useGetProducts } from "../hooks/useGetProducts";
-import { Link } from "@tanstack/react-router";
 import { useProductsFilters } from "../hooks/useProductsFilters";
+import { useGetProducts } from "../hooks/useGetProducts";
+import { useProductsView } from "../hooks/useProductsView";
+import ProductsFilters from "./ProductFilter";
 
 export const Products = () => {
-  const {
-    selectedCategory,
-    currentPage,
-    POSTS_PER_PAGE,
-    setCurrentPage,
-    handleCategoryChange,
-  } = useProductsFilters();
+  const filters = useProductsFilters();
 
-  const { products, total, isLoading, isError } = useGetProducts({
-    categorySlug: selectedCategory.slug,
-    page: currentPage,
-    limit: POSTS_PER_PAGE,
+  const {
+    products: serverProducts,
+    isLoading,
+    isError,
+  } = useGetProducts({
+    categorySlug: filters.selectedCategory.slug,
   });
 
-  const totalPages = Math.ceil(total / POSTS_PER_PAGE);
+  const { products: visibleProducts, total } = useProductsView({
+    products: serverProducts,
+    page: filters.currentPage,
+    limit: filters.POSTS_PER_PAGE,
+    search: filters.searchQuery,
+    sortBy: filters.priceSort,
+  });
 
-  if (isLoading)
-    return (
-      <Container ta="center" mt="xl">
-        <Loader size="lg" />
-      </Container>
-    );
+  const totalPages = Math.ceil(total / filters.POSTS_PER_PAGE);
 
-  if (isError)
-    return (
-      <Container ta="center" mt="xl">
-        <Text c="red" fw={600}>
-          Product not found
-        </Text>
-        <Button mt="md" component={Link} to="/">
-          Back to products
-        </Button>
-      </Container>
-    );
   return (
-    <Container size={"xl"}>
-      <ProductCategoryFilter
-        selectedCategory={selectedCategory}
-        onSelectCategory={handleCategoryChange}
+    <Container size="xl">
+      <ProductsFilters
+        selectedCategory={filters.selectedCategory}
+        onSelectCategory={(c) => {
+          filters.setSelectedCategory(c);
+          filters.setCurrentPage(1);
+        }}
+        searchQuery={filters.searchQuery}
+        onSearchChange={(v) => {
+          filters.setSearchQuery(v);
+          filters.setCurrentPage(1);
+        }}
+        priceSort={filters.priceSort}
+        onPriceSortChange={(v) => {
+          filters.setPriceSort(v);
+          filters.setCurrentPage(1);
+        }}
       />
-      <Grid gutter="md">
-        {products.map((product: Product) => (
-          <ProductItem product={product} />
-        ))}
-      </Grid>
+      {isLoading && <Loader />}
+      {isError && (
+        <Text c="red" fw={600} ta="center" mt="md">
+          Failed to fetch products
+        </Text>
+      )}
+      {!isLoading && !isError && (
+        <>
+          {visibleProducts.length > 0 ? (
+            <Grid gutter="md">
+              {visibleProducts.map((product) => (
+                <ProductItem key={product.id} product={product} />
+              ))}
+            </Grid>
+          ) : (
+            <Text c="red" fw={600} ta="center" mt="md">
+              No products found
+            </Text>
+          )}
 
-      <Group justify="center" mt="md">
-        {totalPages > 1 && (
-          <Pagination
-            total={totalPages}
-            value={currentPage}
-            onChange={setCurrentPage}
-          />
-        )}
-      </Group>
+          {totalPages > 1 && (
+            <Group justify="center" mt="md">
+              <Pagination
+                value={filters.currentPage}
+                onChange={filters.setCurrentPage}
+                total={totalPages}
+              />
+            </Group>
+          )}
+        </>
+      )}
     </Container>
   );
 };
