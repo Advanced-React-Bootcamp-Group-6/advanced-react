@@ -1,6 +1,6 @@
 import { createRootRoute, createRoute, Navigate } from "@tanstack/react-router";
 import { Layout } from "./components/Layout";
-import { Products } from "./modules/Products/views";
+import { Products } from "./modules/Products/views2";
 import { ProductDetail } from "./modules/Products/views/ProductDetail";
 const rootRoute = createRootRoute({
     component: Layout,

@@ -1,10 +1,17 @@
-import { Container, Grid, Group, Loader, Text } from "@mantine/core";
+import {
+  Container,
+  Grid,
+  Group,
+  Loader,
+  Text,
+} from "@mantine/core";
 import { Pagination } from "@mantine/core";
 import ProductItem from "./ProductItem";
 import { useProductsFilters } from "../hooks/useProductsFilters";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { useProductsView } from "../hooks/useProductsView";
 import ProductsFilters from "./ProductFilter";
+import { ViewToggle } from "./ViewToggle";
 
 export const Products = () => {
   const filters = useProductsFilters();
@@ -25,9 +32,7 @@ export const Products = () => {
     sortBy: filters.priceSort,
   });
 
-
   const totalPages = Math.ceil(total / filters.POSTS_PER_PAGE);
-
 
   return (
     <Container size="xl">
@@ -54,8 +59,11 @@ export const Products = () => {
           Failed to fetch products
         </Text>
       )}
+
+     
       {!isLoading && !isError && (
         <>
+          <ViewToggle />
           {visibleProducts.length > 0 ? (
             <Grid gutter="md">
               {visibleProducts.map((product) => (
