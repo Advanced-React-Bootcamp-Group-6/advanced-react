@@ -5,6 +5,7 @@ import { useProductsFilters } from "../hooks/useProductsFilters";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { useProductsView } from "../hooks/useProductsView";
 import ProductsFilters from "./ProductFilter";
+import { useFeatureFlag } from "../../feature-flags";
 
 export const Products = () => {
   const filters = useProductsFilters();
@@ -25,7 +26,16 @@ export const Products = () => {
     sortBy: filters.priceSort,
   });
 
+  const { isNewProductsUIEnabled } = useFeatureFlag();
+
   const totalPages = Math.ceil(total / filters.POSTS_PER_PAGE);
+
+  if (isNewProductsUIEnabled)
+    return (
+      <Text mt="xl" size="xl">
+        New Products UI Coming Soon!
+      </Text>
+    );
 
   return (
     <Container size="xl">
