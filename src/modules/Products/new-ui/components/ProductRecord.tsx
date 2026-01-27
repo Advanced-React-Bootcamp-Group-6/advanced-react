@@ -43,9 +43,6 @@ export const ProductRecord = ({ product }: { product: Product }) => {
           >
             <IconEye size={18} />
           </ActionIcon>
-          <ActionIcon variant="subtle">
-            <IconPencil size={18} />
-          </ActionIcon>
           <ActionIcon variant="subtle" color="red">
             <IconTrash size={18} onClick={() => deleteProduct(product.id)} />
           </ActionIcon>
