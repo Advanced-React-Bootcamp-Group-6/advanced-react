@@ -1,19 +1,19 @@
 import {
   Container,
-  Grid,
   Group,
   Loader,
   Text,
 } from "@mantine/core";
 import { Pagination } from "@mantine/core";
-import ProductItem from "./ProductItem";
-import { useProductsFilters } from "../hooks/useProductsFilters";
-import { useGetProducts } from "../hooks/useGetProducts";
-import { useProductsView } from "../hooks/useProductsView";
-import ProductsFilters from "./ProductFilter";
-import { ViewToggle } from "./ViewToggle";
+import { ViewToggle } from "../components/ViewToggle";
+import { ProductsView } from "../components/ProductsView";
+import { useProductsView } from "../../hooks/useProductsView";
+import { useGetProducts } from "../../hooks/useGetProducts";
+import ProductsFilters from "../../components/ProductFilter";
+import { useProductsFilters } from "../../hooks/useProductsFilters";
 
-export const Products = () => {
+
+export const NewProducts = () => {
   const filters = useProductsFilters();
 
   const {
@@ -63,13 +63,9 @@ export const Products = () => {
      
       {!isLoading && !isError && (
         <>
-          <ViewToggle />
+          <ViewToggle view={filters.viewMode} setView={filters.setViewMode} />
           {visibleProducts.length > 0 ? (
-            <Grid gutter="md">
-              {visibleProducts.map((product) => (
-                <ProductItem key={product.id} product={product} />
-              ))}
-            </Grid>
+            <ProductsView products={visibleProducts} viewMode={filters.viewMode} />
           ) : (
             <Text c="red" fw={600} ta="center" mt="md">
               No products found

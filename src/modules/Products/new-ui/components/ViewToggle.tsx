@@ -1,18 +1,22 @@
-import { Group, SegmentedControl, Text, Title } from "@mantine/core";
+import { Group, SegmentedControl, Title } from "@mantine/core";
 import { IconLayoutGrid, IconTable } from "@tabler/icons-react";
-import { useState } from "react";
 
-export function ViewToggle() {
-  const [view, setView] = useState("grid");
+export type ViewMode = "grid" | "table";
+
+type ViewToggleProps = {
+    view: ViewMode;
+    setView: (view: ViewMode) => void;
+};
+export function ViewToggle({ view, setView }: ViewToggleProps) {
 
   return (
-    <Group justify="space-between" mt={"sm"}>
+    <Group justify="space-between" mt="sm" mb="sm">
       <Title order={3}>
         Products
       </Title>
       <SegmentedControl
         value={view}
-        onChange={setView}
+        onChange={(value) => setView(value as "grid" | "table")}
         data={[
           {
             value: "grid",

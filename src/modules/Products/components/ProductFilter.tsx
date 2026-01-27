@@ -64,9 +64,11 @@ export default function ProductsFilters({
     <Paper
       withBorder
       radius="md"
-      mt="md"
+      mt="lg"
       p="md"
       w="100%"
+      maw={1200}
+      miw={{ base: "100%", lg: 1200 }}
     >
       <Stack>
         <Group align="center">

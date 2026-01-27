@@ -11,7 +11,7 @@ import {
   Text,
 } from "@mantine/core";
 import type { Product } from "../entities/Product";
-import { IconEdit, IconShoppingCart, IconTrash } from "@tabler/icons-react";
+import { IconShoppingCart, IconTrash } from "@tabler/icons-react";
 import { useDeleteProduct } from "../hooks/useDeleteProduct";
 import { Link } from "@tanstack/react-router";
 import { useHover } from "@mantine/hooks";
@@ -59,9 +59,6 @@ export default function ProductItem({ product }: ProductItemProps) {
             gap={6}
             style={{ opacity: 1, transition: "opacity 0.2s ease" }}
           >
-            <ActionIcon size="sm" variant="light" color="blue">
-              <IconEdit size={16} />
-            </ActionIcon>
             <ActionIcon
               onClick={(e) => {
                 e.preventDefault();
