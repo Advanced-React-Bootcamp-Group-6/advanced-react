@@ -1,52 +1,41 @@
-import {
-  Container,
-  Text,
-  Group,
-  Button,
-  AppShell,
-  Stack,
-  Title,
-  Box,
-} from "@mantine/core";
-import { Outlet } from "@tanstack/react-router";
+import { AppShell } from "@mantine/core";
+import { Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import Navbar from "../Navbar"
 
-export  const Layout = () => {
+export const Layout = () => {
+  const navigate = useNavigate();
+  const { location } = useRouterState();
+  const pathname = location.pathname;
+
+  const current =
+    pathname === "/" || pathname.startsWith("/product/") ? "products" : null;
+
   return (
     <AppShell header={{ height: 75 }} padding={0}>
-      
       <AppShell.Header>
-        <Box
-          h="100%"
-          style={{
-            paddingLeft: "4%",
-            paddingRight:"5%",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.08)",
-            backgroundColor: "transparent",
-            zIndex: 100,
+        <Navbar
+          value={current}
+          onChange={(val) => {
+            if (val === "products") navigate({ to: "/" });
           }}
         >
-          <Container fluid h="100%">
-            <Group h="100%" justify="space-between" align="center">
-              <Stack gap={0} align="flex-start" pr={"md"} pl={"md"}>
-                <Title order={2} c="blue">
-                  Product Dashboard
-                </Title>
+          <Navbar.Brand
+            title="Product Admin"
+            subtitle="Manage your products efficiently"
+          />
 
-                <Text fz="sm" c="dimmed">
-                  Manage your products efficiently
-                </Text>
-              </Stack>
-              <Button
-                variant="gradient"
-                gradient={{ from: "indigo", to: "cyan" }}
-              >
-                + Add Product
-              </Button>
-            </Group>
-          </Container>
-        </Box>
+          <Navbar.Items>
+            <Navbar.Item value="dashboard">Dashboard</Navbar.Item>
+            <Navbar.Item value="products">Products</Navbar.Item>
+            <Navbar.Item value="orders">Orders</Navbar.Item>
+            <Navbar.Item value="customers">Customers</Navbar.Item>
+          </Navbar.Items>
+
+          <Navbar.Actions />
+        </Navbar>
       </AppShell.Header>
-      <AppShell.Main pt={"xl"}>
+
+      <AppShell.Main pt="xl">
         <Outlet />
       </AppShell.Main>
     </AppShell>
