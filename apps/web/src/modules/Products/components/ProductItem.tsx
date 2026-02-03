@@ -34,8 +34,7 @@ export default function ProductItem({ product }: ProductItemProps) {
       <Box ref={ref}>
         <Card
           component={Link}
-          to="/product/$productId"
-          params={{ productId: product.id }}
+          to={`/product/${product.id}`}
           ta="left"
           withBorder
           radius="md"
