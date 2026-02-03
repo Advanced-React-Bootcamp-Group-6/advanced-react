@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, type ReactNode, useMemo } from "react";
+import React, { type ReactNode } from "react";
 import {
   Box,
   Container,
@@ -11,7 +11,6 @@ import {
   Divider,
   Collapse,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import {
   IconBell,
   IconMessageCircle,
@@ -19,25 +18,12 @@ import {
   IconX,
 } from "@tabler/icons-react";
 
-type NavbarValue = string | null;
-
-interface NavbarContextValue {
-  value: NavbarValue;
-  setValue: (value: NavbarValue) => void;
-  isMenuOpen: boolean;
-  toggleMenu: () => void;
-  isMobile: boolean;
-}
-
-const NavbarContext = createContext<NavbarContextValue | null>(null);
-
-function useNavbarContext() {
-  const ctx = useContext(NavbarContext);
-  if (!ctx) {
-    throw new Error("Navbar compound components must be used inside <Navbar>");
-  }
-  return ctx;
-}
+import {
+  NavbarContext,
+  useNavbarContext,
+  useNavbarLogic,
+  type NavbarValue,
+} from "./navbarlogic";
 
 interface NavbarProps {
   children: ReactNode;
@@ -46,37 +32,15 @@ interface NavbarProps {
   onChange?: (value: NavbarValue) => void;
 }
 
-export function Navbar({
-  children,
-  defaultValue = null,
-  value: valueProp,
-  onChange,
-}: NavbarProps) {
-  const [internalValue, setInternalValue] = useState<NavbarValue>(defaultValue);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const isControlled = valueProp !== undefined;
-  const value = isControlled ? valueProp : internalValue;
-
-  const setValue = (next: NavbarValue) => {
-    if (!isControlled) setInternalValue(next);
-    onChange?.(next);
-    if (isMenuOpen) setIsMenuOpen(false);
-  };
-
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const toggleMenu = () => setIsMenuOpen((o) => !o);
-
-  const ctxValue = useMemo(
-    () => ({ value, setValue, isMenuOpen, toggleMenu, isMobile }),
-    [value, isMenuOpen, isMobile]
-  );
+export function Navbar(props: NavbarProps) {
+  const ctxValue = useNavbarLogic(props);
+  const { isMobile, isMenuOpen } = ctxValue;
 
   const brand: ReactNode[] = [];
   const items: ReactNode[] = [];
   const actions: ReactNode[] = [];
 
-  React.Children.forEach(children, (child: any) => {
+  React.Children.forEach(props.children, (child: any) => {
     if (!child) return;
     if (child.type === NavbarBrand) brand.push(child);
     else if (child.type === NavbarItems) items.push(child);
@@ -95,7 +59,11 @@ export function Navbar({
         }}
       >
         <Box h={75}>
-          <Container fluid h="100%" style={{ paddingLeft: "4%", paddingRight: "5%" }}>
+          <Container
+            fluid
+            h="100%"
+            style={{ paddingLeft: "4%", paddingRight: "5%" }}
+          >
             <Group h="100%" justify="space-between" align="center" wrap="nowrap">
               {brand}
               {!isMobile && items}
@@ -118,13 +86,17 @@ export function Navbar({
   );
 }
 
-interface NavbarBrandProps {
+
+
+function NavbarBrand({
+  title,
+  subtitle,
+}: {
   title: string;
   subtitle?: string;
-}
-
-function NavbarBrand({ title, subtitle }: NavbarBrandProps) {
-  const { isMobile, toggleMenu, isMenuOpen } = useNavbarContext();
+}) {
+  const { isMobile, toggleMenu, isMenuOpen } =
+    useNavbarContext();
 
   return (
     <Group gap="sm" wrap="nowrap" style={{ flex: 1 }}>
@@ -153,11 +125,7 @@ function NavbarBrand({ title, subtitle }: NavbarBrandProps) {
   );
 }
 
-interface NavbarItemsProps {
-  children: ReactNode;
-}
-
-function NavbarItems({ children }: NavbarItemsProps) {
+function NavbarItems({ children }: { children: ReactNode }) {
   const { isMobile } = useNavbarContext();
 
   if (!isMobile) {
@@ -177,13 +145,16 @@ function NavbarItems({ children }: NavbarItemsProps) {
   return <Stack gap="xs" mt="sm">{children}</Stack>;
 }
 
-interface NavbarItemProps {
+function NavbarItem({
+  value,
+  children,
+}: {
   value: string;
   children: ReactNode;
-}
+}) {
+  const { value: active, setValue, isMobile } =
+    useNavbarContext();
 
-function NavbarItem({ value, children }: NavbarItemProps) {
-  const { value: active, setValue, isMobile } = useNavbarContext();
   const isActive = active === value;
 
   return (
@@ -217,11 +188,7 @@ function NavbarItem({ value, children }: NavbarItemProps) {
   );
 }
 
-interface NavbarActionsProps {
-  children?: ReactNode;
-}
-
-function NavbarActions({ children }: NavbarActionsProps) {
+function NavbarActions({ children }: { children?: ReactNode }) {
   const { isMobile } = useNavbarContext();
 
   if (!isMobile) {
@@ -250,10 +217,10 @@ function NavbarActions({ children }: NavbarActionsProps) {
     <Stack gap="sm" mt="md">
       {children}
       <Group gap="sm">
-        <ActionIcon variant="subtle" aria-label="Notifications">
+        <ActionIcon variant="subtle">
           <IconBell size={18} />
         </ActionIcon>
-        <ActionIcon variant="subtle" aria-label="Messages">
+        <ActionIcon variant="subtle">
           <IconMessageCircle size={18} />
         </ActionIcon>
       </Group>
