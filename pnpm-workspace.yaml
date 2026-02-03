@@ -25,3 +25,4 @@ catalog:
   "postcss-simple-vars": "^7.0.1"
   "typescript-eslint": "^8.46.4"
   "vite": "^7.2.4"
+  "turbo": "^2.8.2"
