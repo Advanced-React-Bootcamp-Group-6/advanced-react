@@ -12,15 +12,6 @@
     "typecheck": "turbo typecheck",
     "clean": "turbo clean && rm -rf node_modules"
   },
-  "dependencies": {
-    "@mantine/core": "catalog:",
-    "@mantine/hooks": "catalog:",
-    "@tabler/icons-react": "catalog:",
-    "@tanstack/react-query": "catalog:",
-    "@tanstack/react-router": "catalog:",
-    "react": "catalog:",
-    "react-dom": "catalog:"
-  },
   "devDependencies": {
     "@eslint/js": "catalog:",
     "@types/node": "catalog:",
