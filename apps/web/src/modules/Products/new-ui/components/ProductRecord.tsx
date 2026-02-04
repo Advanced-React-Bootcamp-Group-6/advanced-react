@@ -1,7 +1,7 @@
 import { ActionIcon, Badge, Group, Image, Table, Text } from "@mantine/core";
 import type { Product } from "../../entities/Product";
 import { Link } from "@tanstack/react-router";
-import { IconEye, IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconEye, IconTrash } from "@tabler/icons-react";
 import { useDeleteProduct } from "../../hooks/useDeleteProduct";
 
 export const ProductRecord = ({ product }: { product: Product }) => {
@@ -36,8 +36,7 @@ export const ProductRecord = ({ product }: { product: Product }) => {
         <Group gap={3}>
           <ActionIcon
             component={Link}
-            to="/product/$productId"
-            params={{ productId: product.id }}
+            to={`/product/${product.id}`}
             variant="subtle"
             color="yellow"
           >
