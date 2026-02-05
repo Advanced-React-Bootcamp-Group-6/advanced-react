@@ -1,83 +1,62 @@
 :root {
-  --colors-azure-1: #e8f1ffff;
-  --colors-azure-2: #297bffff;
-  --colors-azure-3: #1f62cfff;
+  /* Raw Colors */
+  --colors-brand-blue-1: #e8f1ff;
+  --colors-brand-blue-2: #297bff;
+  --colors-brand-blue-3: #1f62cf;
 
   --colors-black: #212121;
   --colors-white: #ffffff;
 
-  --colors-gray-1: #fafafaff;
-  --colors-gray-2: #f5f5f5ff;
-  --colors-gray-3: #292929ff;
-  --colors-gray-4: #252525ff;
+  --colors-gray-1: #fafafa;
+  --colors-gray-2: #f5f5f5;
+  --colors-gray-3: #6b7280;
+  --colors-gray-4: #252525;
 
-  --colors-green-1: #5bc57fff;
-  --colors-green-2: #1aa348ff;
-  --colors-green-3: #168c3fff;
+  --colors-green-1: #5bc57f;
+  --colors-green-2: #1aa348;
+  --colors-green-3: #168c3f;
 
-  --colors-magenta-1: #ed34d4ff;
-  --colors-magenta-2: #c227adff;
-  --colors-magenta-3: #971a86ff;
-  --colors-magenta-4: #6b0d5eff;
-  --colors-magenta-5: #400037ff;
+  --colors-red-1: #f69494;
+  --colors-red-2: #f26464;
+  --colors-red-3: #ed3333;
 
-  --colors-purple-1: #8667ffff;
-  --colors-purple-2: #6038ffff;
-  --colors-purple-3: #4b2acfff;
+  --colors-yellow-1: #fffcf5;
+  --colors-yellow-2: #fff3de;
+  --colors-yellow-3: #feebc3;
 
-  --colors-red-1: #f69494ff;
-  --colors-red-2: #f26464ff;
-  --colors-red-3: #ed3333ff;
+  /* Semantic Mapping*/
+  --brand-primary: var(--colors-brand-blue-2);
+  --brand-secondary: var(--colors-brand-blue-3);
+  --info: var(--colors-brand-blue-3);
 
-  --colors-yellow-100: #fffcf5ff;
-  --colors-yellow-150: #fff3deff;
-  --colors-yellow-200: #feebc3ff;
-  --colors-yellow-300: #feebc6ff;
+  --success: var(--colors-green-3);
+  --error: var(--colors-red-3);
+  --warning: var(--colors-yellow-3);
+  --info: var(--colors-azure-3);
 
-  --brand-primary: var(--colors-purple-2);
-  --brand-secondary: var(--colors-purple-3);
-  --danger-primary: var(--colors-red-3);
-  --danger-secondary: var(--colors-red-4);
   --static-white: var(--colors-white);
 
+  /* Text*/
+  --color-body: var(--colors-black);
+  --color-muted: var(--colors-gray-3);
+  --input-placeholder-color: var(--color-muted);
+
+  /* Backgrounds */
+  --background-primary: var(--colors-white);
+  --background-secondary: var(--colors-gray-2);
+  --background-secondary-light: #fafafacc;
+  --background-tertiary: var(--colors-gray-1);
+  --background-blurred: #ffffffcc;
+
+  --background-gradient: linear-gradient(
+    300deg,
+    rgba(41, 123, 255, 0.08) 0%,
+    rgba(41, 123, 255, 0) 100%
+  );
+
+  /* Borders & Effects */
+  --border: #e5e7eb;
   --disabled-opacity: 0.3;
 
-  --colors-azure-100: rgb(7, 11, 15);
-
-  --background-primary: var(--colors-white);
-  --background-secondary: var(--colors-gray-100);
-  --background-secondary-light: #fafafacc;
-  --background-tertiary: var(--colors-gray-120);
-  --background-provisory: var(--colors-white);
-  --background-gradient:
-    linear-gradient(
-      300deg,
-      rgba(242, 247, 255, 0.18) 0%,
-      rgba(242, 247, 255, 0) 100%
-    ),
-    --background-blurred: #ffffffcc;
-
-  --color-body: var(--background-primary);
-
-  --vibrancy-background-primary: #f3f0ffe6;
-  --vibrancy-background-secondary: #e5e3fce6;
-
-  --highlight-azure-bg: var(--colors-azure-1);
-  --highlight-gray-bg: var(--colors-gray-1);
-
-  --global-background-overlay: rgba(255, 255, 255, 0.8);
-
-  --border: var(--colors-gray-3);
-  --error: var(--colors-red-3);
-  --success: var(--colors-green-3);
-  --info: var(--colors-azure-3);
-  --warning: var(--colors-yellow-3);
-
-  --gradient-ai-secondary: linear-gradient(
-    to right,
-    var(--border),
-    var(--foreground-primary),
-    var(--border),
-    var(--border)
-  );
+  --focus-ring: color-mix(in srgb, var(--brand-primary) 30%, transparent);
 }
