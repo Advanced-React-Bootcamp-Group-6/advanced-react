@@ -1,7 +1,7 @@
 :root {
-  --typography-font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  ---typography-font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
 
   --typography-font-weight-bold: 700;
   --typography-font-weight-semibold: 600;

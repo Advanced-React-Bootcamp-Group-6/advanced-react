@@ -1,17 +1,18 @@
-@import "./colors";
-
 :root {
+  /* Radius */
   --radius-xxs: rem(2);
   --radius-xs: rem(4);
   --radius-sm: rem(8);
   --radius-md: rem(12);
 
+  /* Spacing */
   --spacing-xxs: rem(2);
   --spacing-xs: rem(4);
   --spacing-sm: rem(8);
   --spacing-md: rem(12);
   --spacing-lg: rem(16);
 
+  /* Sizes */
   --size-xxs: rem(8);
   --size-xs: rem(14);
   --size-sm: rem(16);

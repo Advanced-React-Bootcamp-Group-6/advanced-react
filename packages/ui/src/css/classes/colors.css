@@ -1,35 +1,31 @@
-.brand-primary {
+.text-brand-primary {
   color: var(--brand-primary);
 }
 
-.brand-secondary {
+.text-brand-secondary {
   color: var(--brand-secondary);
 }
 
-.bg-primary {
-  color: var(--background-primary);
-}
-
-.white {
-  color: var(--colors-white);
-}
-
-.error {
+.text-error {
   color: var(--error);
 }
 
-.success {
+.text-success {
   color: var(--success);
 }
 
-.white {
+.text-info {
+  color: var(--info);
+}
+
+.text-white {
   color: var(--static-white);
 }
 
-.border {
-  color: var(--border);
+.text-muted {
+  color: var(--color-muted);
 }
 
-.blue {
-  color: var(--info);
+.text-border {
+  color: var(--border);
 }
